@@ -1,0 +1,1 @@
+const PickUp = require('../models/pickUpModel')
