@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 const { validateEmail, createRefreshToken, createAccessToken } = require('../utils/authUtils');
 
 // Create User
-router.post('/register', async (req, res) => {
+router.post('/user/register', async (req, res) => {
     const { name, id, email, password, address, city, role} = req.body;
-
+    console.log(req.body);
     if (!name || !id || !email || !password )
         return res
         .status(400)
@@ -43,36 +43,36 @@ router.post('/register', async (req, res) => {
 });
 
 // Mostrar Clientes
-router.get('/usermanagement', async (req, res) => {
+router.get('/user/customer', async (req, res) => {
     const users = await Users.find().where({ role:'Cliente'})
     res.status(200).json({ users })
 })
 
 // Mostrar Mensajeros
-router.get('/employeemanagement', async (req, res) => {
+router.get('/user/employee', async (req, res) => {
     const users = await Users.find().where({ role:'Mensajero'})
     res.status(200).json({ users })
 })
 
 // Encontrar Cliente
-router.get('/usermanagement/:id', async (req, res) => {
+router.get('/user/customer/:id', async (req, res) => {
     const user = await Users.findById(req.params.id);
     res.status(200).json({ user })
 })
 
 // Encontrar Empleado
-router.get('/employeemanagement/:id', async (req, res) => {
+router.get('/user/employee/:id', async (req, res) => {
     const user = await Users.findById(req.params.id);
     res.status(200).json({ user })
 })
 
 // Eliminar Cliente
-router.delete('/userprofile/:id', async (req, res) => {
+router.delete('/user/customer/:id', async (req, res) => {
     const user = await Users.findByIdAndDelete(req.params.id);
     res.status(200).json({ msg:"Usuario eliminado exitosamente"})
 })
 // Actualizar Cliente
-router.put('/userprofile/:id', async (req, res) => {
+router.put('/user/customer/:id', async (req, res) => {
     const { email, password, address, city } = req.body;
     const passwordHash = await bcrypt.hash(password, 12);
     await Users.findByIdAndUpdate(req.params.id,{
